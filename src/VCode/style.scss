@@ -1,6 +1,5 @@
 .v-capture {
   position: relative;
-  width: 100px;
   height: 40px;
   canvas {
     margin: 0;
@@ -14,6 +13,7 @@
     display: inline-block;
     vertical-align: bottom;
     span {
+      cursor: pointer;
       text-decoration: underline;
     }
   }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import options from './config';
-import './style.less';
+import './style.scss';
 
 class VCode extends React.Component {
   static defaultProps = {
@@ -11,7 +11,7 @@ class VCode extends React.Component {
     width: 100, // 宽度
     height: 40, // 高度
     options,
-    onChange: (value) => { console.log(value); }
+    onChange: (value) => { console.log(value); },
   };
   constructor(props) {
     super(props);
@@ -35,19 +35,17 @@ class VCode extends React.Component {
   }
 
   componentDidMount() {
-    this.onDraw(this.props.value);
+    this.onDraw();
   }
 
-  onDraw = (value) => {
+  onDraw = () => {
     const context = this.canvasDom.getContext('2d');
     const { len, lines, width, height } = this.state;
-    if (!this.isImage(value)) {
-      const ImgObj = new Image(); // eslint-disable-line
-      ImgObj.src = value;
+     /* const ImgObj = new Image(); // eslint-disable-line
+      ImgObj.src = this.props.value;
       ImgObj.onload = () => {
         context.drawImage(ImgObj, 0, 0, 100, 40);
-      };
-    }
+      }; */
     const uW = width / len / 1.01; // 每个字符占的宽度
     context.fillStyle = '#e3e3e3';
     context.fillRect(0, 0, width, height);
@@ -66,7 +64,7 @@ class VCode extends React.Component {
   onRefresh = () => {
     const context = this.canvasDom.getContext('2d');
     context.height = this.state.height;
-    this.onDraw();
+    this.onDraw(this.state.value);
   }
 
   drawText = (x, y, value) => {
@@ -114,8 +112,6 @@ class VCode extends React.Component {
     }
     return `#${colors.join('')}`;
   }
-
-  isImage = value => /^http[s]*:\/\/|\.jpg$|\.png$|\.jpeg$|\.gif$|\.bmp$|\.webp$|^data:image/.test(value)
 
   generateCodes = (start, end) => {
     let index = start;
